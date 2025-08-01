@@ -1,7 +1,5 @@
 #include "BrainflowSpO2Algorithm.h"
 
-#define MAX_FILTER_ORDER 8
-
 /**
  * @brief Calculates the oxygen saturation level (SpO2) from PPG IR and RED signals.
  *
@@ -15,46 +13,64 @@
  */
 void get_oxygen_level(float *ppg_ir, float *ppg_red, int data_size, float *oxygen_level)
 {
-    float *red_raw = new float[data_size];
-    float *ir_raw = new float[data_size];
-    int filter_shift = 25; // to get rif of filtereing artifact, dont use first elements
-    int new_size = data_size - filter_shift;
-    float *new_red_raw = red_raw + filter_shift;
-    float *new_ir_raw = ir_raw + filter_shift;
-    memcpy (red_raw, ppg_red, data_size * sizeof (float));
-    memcpy (ir_raw, ppg_ir, data_size * sizeof (float));
+  float *red_raw = new float[data_size];
+  float *ir_raw = new float[data_size];
+  int filter_shift = 25; // to get rif of filtereing artifact, dont use first elements
+  int new_size = data_size - filter_shift;
+  float *new_red_raw = red_raw + filter_shift;
+  float *new_ir_raw = ir_raw + filter_shift;
+  memcpy (red_raw, ppg_red, data_size * sizeof (float));
+  memcpy (ir_raw, ppg_ir, data_size * sizeof (float));
 
-    // need prefiltered mean of red and ir for dc
-    float mean_red = mean (new_red_raw, new_size);
-    float mean_ir = mean (new_ir_raw, new_size);
+  // need prefiltered mean of red and ir for dc
+  float mean_red = mean (new_red_raw, new_size);
+  float mean_ir = mean (new_ir_raw, new_size);
 
-    // filtering(full size)
-    detrend (red_raw, data_size, (int)DetrendOperations::CONSTANT);
-    detrend (ir_raw, data_size, (int)DetrendOperations::CONSTANT);
-    perform_bandpass (red_raw, data_size, FILTER_SAMPLING_RATE, 0.7, 1.5, 4, (int)FilterTypes::BUTTERWORTH, 0.0);
-    perform_bandpass (ir_raw, data_size, FILTER_SAMPLING_RATE, 0.7, 1.5, 4, (int)FilterTypes::BUTTERWORTH, 0.0);
+  // filtering(full size)
+  detrend (red_raw, data_size, (int)DetrendOperations::CONSTANT);
+  detrend (ir_raw, data_size, (int)DetrendOperations::CONSTANT);
 
-    // calculate AC & DC components using mean & rms:
-    float redac = rms (new_red_raw, new_size);
-    float irac = rms (new_ir_raw, new_size);
-    float reddc = mean_red;
-    float irdc = mean_ir;
+  const double start_f = 0.7;
+  const double stop_f = 1.5;
 
-    // https://www.maximintegrated.com/en/design/technical-documents/app-notes/6/6845.html
-    float r = (redac / reddc) / (irac / irdc);
-    float spo2 = (CALIB_COEFF_1 * r * r) + (CALIB_COEFF_2 * r) + (CALIB_COEFF_3);
-    if (spo2 > 100.0)
-    {
-        spo2 = 100.0;
-    }
-    if (spo2 < 0)
-    {
-        spo2 = 0.0;
-    }
-    *oxygen_level = spo2;
+  auto start_filter = butter<FILTER_ORDER>(2 * start_f / FILTER_SAMPLING_RATE);
+  auto stop_filter = butter<FILTER_ORDER>(2 * stop_f / FILTER_SAMPLING_RATE);
 
-    delete[] red_raw;
-    delete[] ir_raw;
+  for (int i = 0; i < data_size; i++) {
+    red_raw[i] = red_raw[i] - start_filter(red_raw[i]);
+    red_raw[i] = stop_filter(red_raw[i]);
+  }
+
+  // TODO better way to reset internal state of filters?
+  start_filter = butter<FILTER_ORDER>(2 * start_f / FILTER_SAMPLING_RATE);
+  stop_filter = butter<FILTER_ORDER>(2 * stop_f / FILTER_SAMPLING_RATE);
+
+  for (int i = 0; i < data_size; i++) {
+    ir_raw[i] = ir_raw[i] - start_filter(ir_raw[i]);
+    ir_raw[i] = stop_filter(ir_raw[i]);
+  }
+
+  // calculate AC & DC components using mean & rms:
+  float redac = rms (new_red_raw, new_size);
+  float irac = rms (new_ir_raw, new_size);
+  float reddc = mean_red;
+  float irdc = mean_ir;
+
+  // https://www.maximintegrated.com/en/design/technical-documents/app-notes/6/6845.html
+  float r = (redac / reddc) / (irac / irdc);
+  float spo2 = (CALIB_COEFF_1 * r * r) + (CALIB_COEFF_2 * r) + (CALIB_COEFF_3);
+  if (spo2 > 100.0)
+  {
+      spo2 = 100.0;
+  }
+  if (spo2 < 0)
+  {
+      spo2 = 0.0;
+  }
+  *oxygen_level = spo2;
+
+  delete[] red_raw;
+  delete[] ir_raw;
 }
 
 void detrend (float *data, int data_len, int detrend_operation)
@@ -99,57 +115,4 @@ void detrend (float *data, int data_len, int detrend_operation)
             data[i] = data[i] - (grad * i + y_int);
         }
     }
-}
-
-void perform_bandpass (float *data, int data_len, int sampling_rate, float start_freq, float stop_freq, int order, int filter_type, float ripple)
-{
-    float center_freq = (start_freq + stop_freq) / 2.0;
-    float band_width = stop_freq - start_freq;
-    Dsp::Filter *f = NULL;
-    float *filter_data[1];
-    filter_data[0] = data;
-
-    switch (static_cast<FilterTypes> (filter_type))
-    {
-        case FilterTypes::BUTTERWORTH:
-            f = new Dsp::FilterDesign<Dsp::Butterworth::Design::BandPass<MAX_FILTER_ORDER>, 1> ();
-            break;
-        case FilterTypes::BUTTERWORTH_ZERO_PHASE:
-            f = new Dsp::FilterDesign<Dsp::Butterworth::Design::BandPass<MAX_FILTER_ORDER>, 1> ();
-            break;
-        case FilterTypes::CHEBYSHEV_TYPE_1:
-            f = new Dsp::FilterDesign<Dsp::ChebyshevI::Design::BandPass<MAX_FILTER_ORDER>, 1> ();
-            break;
-        case FilterTypes::CHEBYSHEV_TYPE_1_ZERO_PHASE:
-            f = new Dsp::FilterDesign<Dsp::ChebyshevI::Design::BandPass<MAX_FILTER_ORDER>, 1> ();
-            break;
-        case FilterTypes::BESSEL:
-            f = new Dsp::FilterDesign<Dsp::Bessel::Design::BandPass<MAX_FILTER_ORDER>, 1> ();
-            break;
-        case FilterTypes::BESSEL_ZERO_PHASE:
-            f = new Dsp::FilterDesign<Dsp::Bessel::Design::BandPass<MAX_FILTER_ORDER>, 1> ();
-            break;
-    }
-
-    Dsp::Params params;
-    params[0] = sampling_rate; // sample rate
-    params[1] = order;         // order
-    params[2] = center_freq;   // center freq
-    params[3] = band_width;
-    if ((filter_type == (int)FilterTypes::CHEBYSHEV_TYPE_1) ||
-        (filter_type == (int)FilterTypes::CHEBYSHEV_TYPE_1_ZERO_PHASE))
-    {
-        params[3] = ripple; // ripple
-    }
-    f->setParams (params);
-    f->process (data_len, filter_data);
-    if ((filter_type == (int)FilterTypes::BUTTERWORTH_ZERO_PHASE) ||
-        (filter_type == (int)FilterTypes::CHEBYSHEV_TYPE_1_ZERO_PHASE) ||
-        (filter_type == (int)FilterTypes::BESSEL_ZERO_PHASE))
-    {
-        reverse_array (data, data_len);
-        f->process (data_len, filter_data);
-        reverse_array (data, data_len);
-    }
-    delete f;
 }

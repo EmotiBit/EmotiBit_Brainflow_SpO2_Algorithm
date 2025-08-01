@@ -2,27 +2,20 @@
 #define SPO2_ALGORITHM_H
 
 #include <math.h>
+#include <string.h>
 #include <stdlib.h>
 
-#include "EmotiBit_DSPFilters.h"
-#include "DspFilters/Dsp.h"
+#include <Filters.h>
+#include <AH/Timing/MillisMicrosTimer.hpp>
+#include <Filters/Butterworth.hpp>
 
 // These constants are from Table 1 (https://www.analog.com/en/resources/technical-articles/guidelines-for-spo2-measurement--maxim-integrated.html)
 #define CALIB_COEFF_1 1.5958422
 #define CALIB_COEFF_2 -34.6596622
 #define CALIB_COEFF_3 112.6898759
 
-#define FILTER_SAMPLING_RATE 10 // Hz
-
-enum class FilterTypes : int
-{
-    BUTTERWORTH = 0,
-    CHEBYSHEV_TYPE_1 = 1,
-    BESSEL = 2,
-    BUTTERWORTH_ZERO_PHASE = 3,
-    CHEBYSHEV_TYPE_1_ZERO_PHASE = 4,
-    BESSEL_ZERO_PHASE = 5
-};
+#define FILTER_SAMPLING_RATE 50 // Hz
+#define FILTER_ORDER 4
 
 enum class DetrendOperations : int
 {
@@ -63,6 +56,5 @@ inline void reverse_array (float data[], int len)
 
 void get_oxygen_level (float *ppg_ir, float *ppg_red, int data_size, float *oxygen_level);
 void detrend (float *data, int data_len, int detrend_operation);
-void perform_bandpass (float *data, int data_len, int sampling_rate, float start_freq, float stop_freq, int order, int filter_type, float ripple);
 
 #endif /* SPO2_ALGORITHM_H */

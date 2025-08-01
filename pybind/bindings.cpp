@@ -1,11 +1,11 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <pybind11/numpy.h>
-#include "spo2_algorithm.h"
+#include "BrainflowSpO2Algorithm.h"
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(SPO2Algorithm, m) {
+PYBIND11_MODULE(BrainflowSpO2Algorithm, m) {
   m.def(
     "get_oxygen_level",
     [](py::array_t<float, py::array::c_style | py::array::forcecast> ppg_ir,
