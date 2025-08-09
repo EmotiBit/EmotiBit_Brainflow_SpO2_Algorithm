@@ -4,7 +4,7 @@ cur_dir = os.path.dirname(__file__)
 pyd_dir = os.path.join(cur_dir, 'build/Release')
 sys.path.append(os.path.abspath(pyd_dir))
 
-import SPO2Algorithm
+import BrainflowSpO2Algorithm
 import csv
 import argparse
 import matplotlib.pyplot as plt
@@ -68,7 +68,7 @@ def main():
   o2_ts = []
   index = 0
   for red_chunk, ir_chunk in zip(ppg_red_chunks, ppg_ir_chunks):
-    o2 = SPO2Algorithm.get_oxygen_level(ir_chunk, red_chunk)
+    o2 = BrainflowSpO2Algorithm.get_oxygen_level(ir_chunk, red_chunk)
     o2_levels.append(o2)
     o2_ts.append(ppg_red_ts[index])
     index += chunk_size

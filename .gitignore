@@ -1,4 +1,6 @@
 .vscode
 venv
 build
-tests
+
+tests/**
+!tests/**/*.png
