@@ -6,6 +6,13 @@ project(BrainflowSpO2Algorithm VERSION 4.1 LANGUAGES C CXX) # Project name becom
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Set Arduino directory variable
+IF (WIN32)
+  set(ARDUINO_DIRECTORY "$ENV{USERPROFILE}/Documents/Arduino")
+ELSE()
+  set(ARDUINO_DIRECTORY "$ENV{HOME}/Arduino")
+ENDIF()
+
 # ----------------------------------------------------------------------------------------------------------
 # Arduino Mock Library Setup
 # ----------------------------------------------------------------------------------------------------------
@@ -23,18 +30,17 @@ enable_testing()
 
 # Setup mock Arduino library to simulate Arduino environment
 add_library(ArduinoMock
-  "C:/Users/jxie7/Documents/Arduino/libraries/EmotiBit_ArduinoFilters/mock/Core/Arduino.cpp"
-  "C:/Users/jxie7/Documents/Arduino/libraries/EmotiBit_ArduinoFilters/mock/Core/ArduinoMock.cpp"
-  "C:/Users/jxie7/Documents/Arduino/libraries/EmotiBit_ArduinoFilters/mock/Core/HardwareSerial0.cpp"
-  "C:/Users/jxie7/Documents/Arduino/libraries/EmotiBit_ArduinoFilters/mock/Core/Print.cpp"
+  "${ARDUINO_DIRECTORY}/libraries/EmotiBit_ArduinoFilters/mock/Core/Arduino.cpp"
+  "${ARDUINO_DIRECTORY}/libraries/EmotiBit_ArduinoFilters/mock/Core/ArduinoMock.cpp"
+  "${ARDUINO_DIRECTORY}/libraries/EmotiBit_ArduinoFilters/mock/Core/HardwareSerial0.cpp"
+  "${ARDUINO_DIRECTORY}/libraries/EmotiBit_ArduinoFilters/mock/Core/Print.cpp"
 )
 target_include_directories(ArduinoMock PUBLIC
-  "C:/Users/jxie7/Documents/Arduino/libraries/EmotiBit_ArduinoFilters/src"
-  "C:/Users/jxie7/Documents/Arduino/libraries/EmotiBit_ArduinoFilters/mock/Core"
-  "C:/Users/jxie7/Documents/Arduino/libraries/EmotiBit_ArduinoFilters/mock/Core-Libraries"
-  "C:/Users/jxie7/Documents/Arduino/libraries/EmotiBit_ArduinoFilters/mock/Libraries/Adafruit_GFX"
-  "C:/Users/jxie7/Documents/Arduino/libraries/EmotiBit_ArduinoFilters/mock/Libraries/Adafruit_SSD1306"
-  "C:/Users/jxie7/Documents/Arduino/libraries/EmotiBit_ArduinoFilters/mock/Libraries/Encoder"
+  "${ARDUINO_DIRECTORY}/libraries/EmotiBit_ArduinoFilters/mock/Core"
+  "${ARDUINO_DIRECTORY}/libraries/EmotiBit_ArduinoFilters/mock/Core-Libraries"
+  "${ARDUINO_DIRECTORY}/libraries/EmotiBit_ArduinoFilters/mock/Libraries/Adafruit_GFX"
+  "${ARDUINO_DIRECTORY}/libraries/EmotiBit_ArduinoFilters/mock/Libraries/Adafruit_SSD1306"
+  "${ARDUINO_DIRECTORY}/libraries/EmotiBit_ArduinoFilters/mock/Libraries/Encoder"
 )
 target_link_libraries(ArduinoMock PUBLIC GTest::gmock_main GTest::gmock GTest::gtest_main GTest::gtest) 
 
@@ -51,7 +57,7 @@ find_package(pybind11 CONFIG REQUIRED)
 # Gather all source files
 file(GLOB SRC
   "${CMAKE_CURRENT_SOURCE_DIR}/../src/*.cpp"
-  "C:/Users/jxie7/Documents/Arduino/libraries/EmotiBit_ArduinoFilters/src/*.cpp"
+  # Include other .cpp files as needed
 )
 
 # Add local source files
@@ -62,6 +68,7 @@ add_library(lib STATIC
 # Add header files to be included
 target_include_directories(lib PUBLIC 
   "${CMAKE_CURRENT_SOURCE_DIR}/../src"
+  "${ARDUINO_DIRECTORY}/libraries/EmotiBit_ArduinoFilters/src"
 )
 target_link_libraries(lib PUBLIC ArduinoMock)
 

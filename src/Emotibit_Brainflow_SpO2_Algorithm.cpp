@@ -1,4 +1,4 @@
-#include "BrainflowSpO2Algorithm.h"
+#include "Emotibit_Brainflow_SpO2_Algorithm.h"
 
 /**
  * @brief Calculates the oxygen saturation level (SpO2) from PPG IR and RED signals.

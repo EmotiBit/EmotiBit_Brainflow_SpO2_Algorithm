@@ -1,7 +1,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <pybind11/numpy.h>
-#include "BrainflowSpO2Algorithm.h"
+#include "Emotibit_Brainflow_SpO2_Algorithm.h"
 
 namespace py = pybind11;
 
