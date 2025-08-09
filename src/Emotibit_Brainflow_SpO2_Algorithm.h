@@ -1,12 +1,11 @@
 #ifndef SPO2_ALGORITHM_H
 #define SPO2_ALGORITHM_H
 
-#include <math.h>
+#include <cmath>
 #include <string.h>
 #include <stdlib.h>
 
 #include <Filters.h>
-#include <AH/Timing/MillisMicrosTimer.hpp>
 #include <Filters/Butterworth.hpp>
 
 // These constants are from Table 1 (https://www.analog.com/en/resources/technical-articles/guidelines-for-spo2-measurement--maxim-integrated.html)
@@ -16,6 +15,9 @@
 
 #define FILTER_SAMPLING_RATE 50 // Hz
 #define FILTER_ORDER 4
+
+#define START_FREQUENCY 0.7 // Hz
+#define STOP_FREQUENCY 1.5 // Hz
 
 enum class DetrendOperations : int
 {

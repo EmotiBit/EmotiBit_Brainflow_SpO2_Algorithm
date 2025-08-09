@@ -30,24 +30,21 @@ void get_oxygen_level(float *ppg_ir, float *ppg_red, int data_size, float *oxyge
   detrend (red_raw, data_size, (int)DetrendOperations::CONSTANT);
   detrend (ir_raw, data_size, (int)DetrendOperations::CONSTANT);
 
-  const double start_f = 0.7;
-  const double stop_f = 1.5;
-
-  auto start_filter = butter<FILTER_ORDER>(2 * start_f / FILTER_SAMPLING_RATE);
-  auto stop_filter = butter<FILTER_ORDER>(2 * stop_f / FILTER_SAMPLING_RATE);
+  auto high_pass = butter<FILTER_ORDER>(2 * START_FREQUENCY / FILTER_SAMPLING_RATE);
+  auto low_pass = butter<FILTER_ORDER>(2 * STOP_FREQUENCY / FILTER_SAMPLING_RATE);
 
   for (int i = 0; i < data_size; i++) {
-    red_raw[i] = red_raw[i] - start_filter(red_raw[i]);
-    red_raw[i] = stop_filter(red_raw[i]);
+    red_raw[i] = red_raw[i] - high_pass(red_raw[i]);
+    red_raw[i] = low_pass(red_raw[i]);
   }
 
   // TODO better way to reset internal state of filters?
-  start_filter = butter<FILTER_ORDER>(2 * start_f / FILTER_SAMPLING_RATE);
-  stop_filter = butter<FILTER_ORDER>(2 * stop_f / FILTER_SAMPLING_RATE);
+  high_pass = butter<FILTER_ORDER>(2 * START_FREQUENCY / FILTER_SAMPLING_RATE);
+  low_pass = butter<FILTER_ORDER>(2 * STOP_FREQUENCY / FILTER_SAMPLING_RATE);
 
   for (int i = 0; i < data_size; i++) {
-    ir_raw[i] = ir_raw[i] - start_filter(ir_raw[i]);
-    ir_raw[i] = stop_filter(ir_raw[i]);
+    ir_raw[i] = ir_raw[i] - high_pass(ir_raw[i]);
+    ir_raw[i] = low_pass(ir_raw[i]);
   }
 
   // calculate AC & DC components using mean & rms:
