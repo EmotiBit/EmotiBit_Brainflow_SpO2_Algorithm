@@ -1,6 +1,12 @@
 import sys
 import os
 cur_dir = os.path.dirname(__file__)
+
+# Add build directory to sys.path (linux/macOS .so files end up in build directory)
+pyd_dir = os.path.join(cur_dir, 'build')
+sys.path.append(os.path.abspath(pyd_dir))
+
+# For Windows, the .pyd files end up in build/Release directory
 pyd_dir = os.path.join(cur_dir, 'build/Release')
 sys.path.append(os.path.abspath(pyd_dir))
 
