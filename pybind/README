@@ -1,0 +1,23 @@
+# Running EmotiBit Brainflow SpO2 Algorithm using `pybind`
+## Requirements
+- Python
+- Python virtual environment (refer to the Emotibit Plugins [repo](https://github.com/EmotiBit/EmotiBit_Plugins/blob/main/README_py.md#setting-up-python-virtual-environment) for specific instructions on how to setup)
+- CMake
+- [EmotiBit ArduinoFilters](https://github.com/EmotiBit/EmotiBit_ArduinoFilters) installed using Arduino Library Manager (or manually cloned/copied into the Arduino/libraries folder)
+
+## Build
+- Open a terminal window
+- `cd` into the `pybind` directory
+- Activate the Python virtual environment (instructions found in Emotibit Plugins [repo](https://github.com/EmotiBit/EmotiBit_Plugins/blob/main/README_py.md#setting-up-python-virtual-environment))
+- Run `cmake -B build` to generate the build files (the build files will be under a directory named `build`)
+- Run `cmake --build build --config Release` to generate the `.pyd` file
+  - On Windows using MSVC, the `.pyd` file will be under `pybind/build/Release`
+  - Otherwise, the `.pyd` file will be under `pybind/build`
+
+## Testing
+- Run the EmotiBit Data Parser on `tests/simulated-unobstructed-airway_v0.0.0/ip900ap/EmotiBit.csv`
+- Verify that `EmotiBit_PI.csv`, `EmotiBit_PR.csv`, and `EmotiBit_UN.csv` exist under `tests/simulated-unobstructed-airway_v0.0.0/ip900ap`
+- Switch to the terminal window in the `pybind` directory
+- Run `python run.py ../tests/simulated-unobstructed-airway_v0.0.0/ip900ap`
+  - `matplotlib` may need to be installed for the script to run successfully
+- A plot of the raw PPG data overlayed with the calculated SpO2 should appear

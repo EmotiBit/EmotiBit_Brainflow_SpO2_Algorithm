@@ -1,3 +1,5 @@
 .vscode
-venv
+**/venv
 build
+
+tests/**/EmotiBit_*.csv
