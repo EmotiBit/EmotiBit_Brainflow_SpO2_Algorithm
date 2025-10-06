@@ -24,6 +24,7 @@
 - Run `cmake --build build --config Release` to generate the `.pyd` file
   - On Windows using MSVC, the `.pyd` file will be under `pybind/build/Release`
   - Otherwise, the `.pyd` file will be under `pybind/build`
+- Open `run.py` and uncomment lines 6-7 (if on linux/macOS), or uncomment lines 10-11 (if on Windows)
 
 ## Testing
 - Run the EmotiBit Data Parser on `tests/simulated-unobstructed-airway_v0.0.0/ip900ap/EmotiBit.csv`

@@ -2,13 +2,13 @@ import sys
 import os
 cur_dir = os.path.dirname(__file__)
 
-# Add build directory to sys.path (linux/macOS .so files end up in build directory)
-pyd_dir = os.path.join(cur_dir, 'build')
-sys.path.append(os.path.abspath(pyd_dir))
+# Uncomment the two lines below for linux/macOS since .so files from CMake end up in build directory
+# pyd_dir = os.path.join(cur_dir, 'build') # Uncomment if on linux/macOS
+# sys.path.append(os.path.abspath(pyd_dir)) # Uncomment if on linux/macOS
 
-# For Windows, the .pyd files end up in build/Release directory
-pyd_dir = os.path.join(cur_dir, 'build/Release')
-sys.path.append(os.path.abspath(pyd_dir))
+# Uncomment the two lines below for Windows since the .pyd files from CMake end up in build/Release directory
+# pyd_dir = os.path.join(cur_dir, 'build/Release')
+# sys.path.append(os.path.abspath(pyd_dir))
 
 import BrainflowSpO2Algorithm
 import csv
