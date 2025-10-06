@@ -34,4 +34,4 @@
 - Run `python run.py ../tests/simulated-unobstructed-airway_v0.0.0/ip900ap`
   - `matplotlib` will need to be installed for the script to run successfully
 - A plot of the raw PPG data overlayed with the calculated SpO2 should appear
-**Note:** The timestamp used by `run.py` is the `EmotiBitTimestamp` column in the `Emotibit.csv` file
+**Note:** The timestamp used by `run.py` is the `EmotiBitTimestamp` column in the Emotibit `.csv` files
