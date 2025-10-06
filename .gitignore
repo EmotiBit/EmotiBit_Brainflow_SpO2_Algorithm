@@ -2,4 +2,4 @@
 **/venv
 build
 
-tests/**/EmotiBit_*.csv
+tests/**/*.csv

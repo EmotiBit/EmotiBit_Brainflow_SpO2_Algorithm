@@ -12,8 +12,8 @@ Runs the Brainflow algorithm on the provided data folder (which needs to contain
 ## [sit-stand-sit_v0.0.0](https://github.com/EmotiBit/Biometric_Validation_Methods/releases/tag/sit-stand-sit_v0.0.0)
 Device | Custom Dataset? | Resample Test | Scatterplot | Mean-Difference Plot
 --- | --- | --- | --- | ---
-IP900AP | No | ![IP900AP Resample](tests/sit-stand-sit_v0.0.0/ip900ap/ip900ap_resampled.png) | ![IP900AP Scatterplot](tests/sit-stand-sit_v0.0.0/ip900ap//ip900ap_scatter.png) | ![IP900AP Mean Difference Plot](tests/sit-stand-sit_v0.0.0/ip900ap//ip900ap_mean-diff.png)
+[IP900AP](https://www.amazon.com/Innovo-Fingertip-Oximeter-Plethysmograph-Perfusion/dp/B07YVGZPRZ?th=1) | No | ![IP900AP Resample](tests/sit-stand-sit_v0.0.0/ip900ap/ip900ap_resampled.png) | ![IP900AP Scatterplot](tests/sit-stand-sit_v0.0.0/ip900ap//ip900ap_scatter.png) | ![IP900AP Mean Difference Plot](tests/sit-stand-sit_v0.0.0/ip900ap//ip900ap_mean-diff.png)
 ## [simulated-unobstructed-airway_v0.0.0](https://github.com/EmotiBit/Biometric_Validation_Methods/releases/tag/simulated-unobstructed-airway_v0.0.0)
 Device | Custom Dataset? | Resample Test | Scatterplot | Mean-Difference Plot
 --- | --- | --- | --- | ---
-IP900AP | No | ![IP900AP Resample](tests/simulated-unobstructed-airway_v0.0.0/ip900ap/ip900ap_resampled.png) | ![IP900AP Scatterplot](tests/simulated-unobstructed-airway_v0.0.0/ip900ap//ip900ap_scatter.png) | ![IP900AP Mean Difference Plot](tests/simulated-unobstructed-airway_v0.0.0/ip900ap//ip900ap_mean-diff.png)
+[IP900AP](https://www.amazon.com/Innovo-Fingertip-Oximeter-Plethysmograph-Perfusion/dp/B07YVGZPRZ?th=1) | No | ![IP900AP Resample](tests/simulated-unobstructed-airway_v0.0.0/ip900ap/ip900ap_resampled.png) | ![IP900AP Scatterplot](tests/simulated-unobstructed-airway_v0.0.0/ip900ap//ip900ap_scatter.png) | ![IP900AP Mean Difference Plot](tests/simulated-unobstructed-airway_v0.0.0/ip900ap//ip900ap_mean-diff.png)
