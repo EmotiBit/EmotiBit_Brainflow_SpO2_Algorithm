@@ -30,5 +30,5 @@
 - Verify that `EmotiBit_PI.csv`, `EmotiBit_PR.csv`, and `EmotiBit_UN.csv` exist under `tests/simulated-unobstructed-airway_v0.0.0/ip900ap`
 - Switch to the terminal window in the `pybind` directory
 - Run `python run.py ../tests/simulated-unobstructed-airway_v0.0.0/ip900ap`
-  - `matplotlib` may need to be installed for the script to run successfully
+  - `matplotlib` will need to be installed for the script to run successfully
 - A plot of the raw PPG data overlayed with the calculated SpO2 should appear

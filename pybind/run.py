@@ -80,7 +80,7 @@ def main():
     index += chunk_size
 
   # Save o2_levels and o2_ts to a CSV file
-  output_csv = os.path.join(data_folder, 'generated.csv')
+  output_csv = os.path.join(data_folder, 'calculated_spo2.csv')
   with open(output_csv, 'w', newline='') as csvfile:
     writer = csv.writer(csvfile)
     writer.writerow(['Timestamp', 'O2'])
