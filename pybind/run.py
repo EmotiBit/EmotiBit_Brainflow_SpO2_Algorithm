@@ -59,9 +59,9 @@ def main():
   print(f"Found PI file: {pi_file}")
 
   ppg_red = read_column_from_csv(pr_file, 7)
-  ppg_red_ts = read_column_from_csv(pr_file, 0)
+  ppg_red_ts = read_column_from_csv(pr_file, 1)
   ppg_ir = read_column_from_csv(pi_file, 7)
-  ppg_ir_ts = read_column_from_csv(pi_file, 0)
+  ppg_ir_ts = read_column_from_csv(pi_file, 1)
 
   # Split ppg_red and ppg_ir into chunks
   ppg_red_chunks = split_into_chunks(ppg_red, chunk_size)

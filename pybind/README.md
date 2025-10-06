@@ -1,7 +1,7 @@
 # Running EmotiBit Brainflow SpO2 Algorithm using `pybind`
 ## Requirements
 - Python
-- Python virtual environment (refer to the Emotibit Plugins [repo](https://github.com/EmotiBit/EmotiBit_Plugins/blob/main/README_py.md#setting-up-python-virtual-environment) for specific instructions on how to setup)
+- Python virtual environment (refer to the Emotibit Plugins [repo](https://github.com/EmotiBit/EmotiBit_Plugins/blob/main/README_py.md#Creating-python-env-with-pybind11) for specific instructions on how to setup)
 - CMake
 - [EmotiBit ArduinoFilters](https://github.com/EmotiBit/EmotiBit_ArduinoFilters)
   - **Option 1:** Library Manager 
@@ -27,9 +27,11 @@
 - Open `run.py` and uncomment lines 6-7 (if on linux/macOS), or uncomment lines 10-11 (if on Windows)
 
 ## Testing
+- Unzip the `.zip` file in `tests/simulated-unobstructed-airway_v0.0.0/ip900ap`
 - Run the EmotiBit Data Parser on `tests/simulated-unobstructed-airway_v0.0.0/ip900ap/EmotiBit.csv`
 - Verify that `EmotiBit_PI.csv`, `EmotiBit_PR.csv`, and `EmotiBit_UN.csv` exist under `tests/simulated-unobstructed-airway_v0.0.0/ip900ap`
 - Switch to the terminal window in the `pybind` directory
 - Run `python run.py ../tests/simulated-unobstructed-airway_v0.0.0/ip900ap`
   - `matplotlib` will need to be installed for the script to run successfully
 - A plot of the raw PPG data overlayed with the calculated SpO2 should appear
+**Note:** The timestamp used by `run.py` is the `EmotiBitTimestamp` column in the `Emotibit.csv` file
