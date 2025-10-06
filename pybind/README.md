@@ -4,11 +4,11 @@
 - Python virtual environment (refer to the Emotibit Plugins [repo](https://github.com/EmotiBit/EmotiBit_Plugins/blob/main/README_py.md#setting-up-python-virtual-environment) for specific instructions on how to setup)
 - CMake
 - [EmotiBit ArduinoFilters](https://github.com/EmotiBit/EmotiBit_ArduinoFilters)
-  - **Library Manager:** 
+  - **Option 1:** Library Manager 
     1. Open Arduino IDE, 
     1. open the Library Manager
     1. Download EmotiBit_ArduinoFilters `v1.0.1` (if not already installed)
-  - **`git clone`:**
+  - **Option 2:** `git clone`
     1. `cd` into Arduino libraries folder
        - **Windows:** `C:\Users\{username}\Documents\Arduino\libraries`
        - **Mac:** `/Users/{username}/Documents/Arduino/libraries`
