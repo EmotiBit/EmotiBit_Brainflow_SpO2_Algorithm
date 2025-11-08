@@ -19,8 +19,8 @@
 ## Build
 - Open a terminal window
 - `cd` into the `pybind` directory
-- Before being able to run cmake, you will need to update the path to `pybind11` if required. `pybind11` is installed in the python virtual environment, as the link in the previous section explains.
-  - We tested this with cirtual environment created using python 3.12, and therefore the path to pybind in the current CMakeLists.txt file is `py-env/lib/python3.12/site-packages/pybind11/share/cmake/pybind11/`.
+- Before being able to run cmake, you will need to update the path to `pybind11` (*if required*) in the CMakeLists.txt file. `pybind11` is installed in the python virtual environment, as the link in the previous section explains.
+  - We tested this with virtual environment created using python 3.12, and therefore the path to pybind in the current CMakeLists.txt file is `py-env/lib/python3.12/site-packages/pybind11/share/cmake/pybind11/`.
 - Run `cmake -B build` to generate the build files (the build files will be under a directory named `build`)
 - Run `cmake --build build --config Release` to generate the `.pyd` file
   - On Windows using MSVC, the `.pyd` file will be under `pybind/build/Release`
