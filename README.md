@@ -7,8 +7,6 @@ The repository has been setup to enable using the spO2 source code in both, Ardu
   - We use pybind11 to create bindgings for the c-source. The resulting `pyd` file is then used by the python script.
   - To learn more about using pybind and pythin, check out the [pybind/README.md](./pybind/README.md).
 
-# Required Hardware
-- Emotibit
 
 # Scripts
 ## `run.py <path_to_data_folder>`
