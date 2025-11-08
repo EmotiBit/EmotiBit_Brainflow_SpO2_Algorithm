@@ -13,7 +13,7 @@ The repository has been setup to enable using the spO2 source code in both Ardui
 Runs the Brainflow algorithm on the provided data folder (which needs to contain a separate .csv file for PPG-R and PPG-IR from the EmotiBit ending in `PR.csv` and `PI.csv`) and saves the calculated SpO2 with timestamps to `calculated_spo2.csv`. Also shows a plot of the PPG data overlayed with the calculated SpO2.
 
 # Performance
-Plots were created using `scorer.py` from the [EmotiBit Biometric Lib repo](https://github.com/EmotiBit/EmotiBit_Biometric_Lib)
+Plots were created using `scorer.py` from the [EmotiBit Biometric Lib repo](https://github.com/EmotiBit/EmotiBit_Biometric_Lib/blob/a82244efcccb6512258c802b8eebd2d1895d8990/py/examples/scorer_example/scorer_example.py#L1)
 ## [sit-stand-sit_v0.0.0](https://github.com/EmotiBit/Biometric_Validation_Methods/releases/tag/sit-stand-sit_v0.0.0)
 Device | Custom Dataset? | Resample Test | Scatterplot | Mean-Difference Plot
 --- | --- | --- | --- | ---
