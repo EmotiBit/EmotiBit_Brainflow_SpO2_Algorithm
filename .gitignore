@@ -1,4 +1,5 @@
 .vscode
-venv
+**/venv
 build
-tests
+
+tests/**/*.csv

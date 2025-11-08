@@ -1,10 +1,16 @@
 import sys
 import os
 cur_dir = os.path.dirname(__file__)
-pyd_dir = os.path.join(cur_dir, 'build/Release')
-sys.path.append(os.path.abspath(pyd_dir))
 
-import SPO2Algorithm
+# Uncomment the two lines below for linux/macOS since .so files from CMake end up in build directory
+# pyd_dir = os.path.join(cur_dir, 'build') # Uncomment if on linux/macOS
+# sys.path.append(os.path.abspath(pyd_dir)) # Uncomment if on linux/macOS
+
+# Uncomment the two lines below for Windows since the .pyd files from CMake end up in build/Release directory
+# pyd_dir = os.path.join(cur_dir, 'build/Release')
+# sys.path.append(os.path.abspath(pyd_dir))
+
+import BrainflowSpO2Algorithm
 import csv
 import argparse
 import matplotlib.pyplot as plt
@@ -53,9 +59,9 @@ def main():
   print(f"Found PI file: {pi_file}")
 
   ppg_red = read_column_from_csv(pr_file, 7)
-  ppg_red_ts = read_column_from_csv(pr_file, 0)
+  ppg_red_ts = read_column_from_csv(pr_file, 1)
   ppg_ir = read_column_from_csv(pi_file, 7)
-  ppg_ir_ts = read_column_from_csv(pi_file, 0)
+  ppg_ir_ts = read_column_from_csv(pi_file, 1)
 
   # Split ppg_red and ppg_ir into chunks
   ppg_red_chunks = split_into_chunks(ppg_red, chunk_size)
@@ -68,13 +74,13 @@ def main():
   o2_ts = []
   index = 0
   for red_chunk, ir_chunk in zip(ppg_red_chunks, ppg_ir_chunks):
-    o2 = SPO2Algorithm.get_oxygen_level(ir_chunk, red_chunk)
+    o2 = BrainflowSpO2Algorithm.get_oxygen_level(ir_chunk, red_chunk)
     o2_levels.append(o2)
     o2_ts.append(ppg_red_ts[index])
     index += chunk_size
 
   # Save o2_levels and o2_ts to a CSV file
-  output_csv = os.path.join(data_folder, 'generated.csv')
+  output_csv = os.path.join(data_folder, 'calculated_spo2.csv')
   with open(output_csv, 'w', newline='') as csvfile:
     writer = csv.writer(csvfile)
     writer.writerow(['Timestamp', 'O2'])
