@@ -1,5 +1,11 @@
 # Description
-This algorithm is derived from the Brainflow SpO2 algorithm, and uses PPG-R and PPG-IR data from the EmotiBit to calculate SPO2 level. As a starting point, `run.py` splits PPG-R and PPG-IR signals into buffers of length 64, which are then passed to the algorithm. It is recommended for the buffers to contain **at least** 64 samples for accurate results.
+This algorithm is derived from the Brainflow SpO2 algorithm, and uses PPG-R and PPG-IR data from the EmotiBit to calculate SPO2 level. 
+The repository has been setup to enable using the spO2 source code in both, Arduino and a standalone python script. We did this to enable testing source in pyhton, to fast track testing and enable us to improve algorithm performance with a shorter loop.
+
+- Arduino: To use this library in Arduino, just clone the git repo or download it using the Arduino Library manager into your `Arduino/libraries` directory.
+- Python:
+  - We use pybind11 to create bindgings for the c-source. The resulting `pyd` file is then used by the python script.
+  - To learn more about using pybind and pythin, check out the [pybind/README.md](./pybind/README.md).
 
 # Required Hardware
 - Emotibit
